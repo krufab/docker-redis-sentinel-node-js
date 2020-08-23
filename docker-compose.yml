@@ -1,0 +1,63 @@
+version: '3.7'
+
+networks:
+  application:
+    driver: bridge
+
+services:
+  docker-application:
+    image: node:14-alpine3.12
+    command: node src/docker-application.js
+    networks:
+      - application
+    user: "node"
+    volumes:
+      - ".:/home/node/app"
+    working_dir: /home/node/app
+
+  redis-primary:
+    image: redis:6-alpine
+    networks:
+      - application
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./.data:/data"
+
+  redis-replica:
+    image: redis:6-alpine
+    command: redis-server --slaveof redis-primary 6379
+    networks:
+      - application
+    ports:
+      - "6380:6379"
+    volumes:
+      - "./.data:/data"
+
+  # Instance 1
+  redis-sentinel1:
+    build:
+      context: sentinel
+    networks:
+      - application
+    ports:
+      - '26379:26379'
+
+  # Instance 2
+  redis-sentinel2:
+    build:
+      context: sentinel
+    networks:
+      - application
+    ports:
+      - '26380:26379'
+
+  # Instance 3
+  redis-sentinel3:
+    build:
+      context: sentinel
+    networks:
+      - application
+    ports:
+      - '26381:26379'
+
