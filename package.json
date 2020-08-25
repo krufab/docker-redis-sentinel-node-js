@@ -1,0 +1,12 @@
+{
+  "name": "docker-redis-sentinel-node-js",
+  "version": "1.0.0",
+  "description": "Example of Node JS application using Redis Sentinel running in Docker",
+  "main": "src/host.js",
+  "repository": "git@github.com:krufab/docker-redis-sentinel-node-js.git",
+  "author": "Fabio Kruger <krufab@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ioredis": "^4.17.3"
+  }
+}
