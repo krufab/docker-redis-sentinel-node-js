@@ -4,11 +4,11 @@ const Redis = require('ioredis')
 // local address. The containers' ips can be extracted from the docker logs or
 // running the shell script ./get-containers-ips.sh
 const natMap = {
-  '192.168.224.2:6379': { // Docker IP of redis-primary
+  '192.168.224.2:6379': { // Docker IP and internal port of redis-primary
     host: '127.0.0.1', // Local IP
-    port: 6379
+    port: 6379 // Exposed port in docker-compose
   },
-  '192.168.224.3:6379': { // Docker IP of redis-slave
+  '192.168.224.3:6379': { // Docker IP and internal port of redis-replica
     host: '127.0.0.1',
     port: 6380 // Exposed port in docker-compose
   },

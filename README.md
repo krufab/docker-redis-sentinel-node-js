@@ -17,7 +17,7 @@ Redis servers (primary and replicas) running on Docker.
 The Redis servers running in Docker need to be bound to external ports so that the application can connect to them. However,
 the servers will communicate their internal IP addresses, which are normally unreachable by an external application.
 
-Therefore, information about the correspondence between internal and external address ahs to be provided to the Redis
+Therefore, information about the correspondence between internal and external address has to be provided to the Redis
 connection, so that the addresses will be transparently translated.
 
 In order to do so, these steps have to be followed:
@@ -40,11 +40,11 @@ In order to do so, these steps have to be followed:
     ```javascript 1.6
     // In src/external-application.js
     const natMap = {
-      '192.168.224.7:6379': { // Docker IP of redis-primary
+      '192.168.224.7:6379': { // Docker IP and internal port of redis-primary
         host: '127.0.0.1', // Local IP
-        port: 6379
+        port: 6379 // Exposed port in docker-compose
       },
-      '192.168.224.2:6379': { // Docker IP of redis-slave
+      '192.168.224.2:6379': { // Docker IP and internal port of redis-replica
         host: '127.0.0.1',
         port: 6380 // Exposed port in docker-compose
       },
@@ -111,7 +111,7 @@ To run this example:
 
 ## Troubleshooting
 This example should work out of the box (after configuring the containers' IPs), provided that the used ports
-(6370, 680, 26379, 26380, 26381) are all free.
+(6379, 6380, 26379, 26380, 26381) are all free.
 
 In case the internal or external applications report an error message like this:
 ```javascript 1.6
